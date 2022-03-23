@@ -1,1 +1,50 @@
+pip install qutip
+from qutip import *
+import matplotlib.pyplot as plt
+import numpy as np
+from IPython.display import Image
+pip install mayavi
+pip install xelatex
 
+#fixed parameters
+p=0.1
+e=0.2
+d=1
+t=np.pi/20
+N=20
+
+plus=(basis(2,0)+basis(2,1))/np.sqrt(2) # |+> state
+minus=(basis(2,0)-basis(2,1))/np.sqrt(2) # |-> state
+rho0=(1-p)*fock_dm(2,0) + p*fock_dm(2,1) # initial density matrix
+M1=np.sqrt(0.5+e)*plus*plus.dag() + np.sqrt(0.5-e)*minus*minus.dag() # M_+ measurement operator
+M2=np.sqrt(0.5-e)*plus*plus.dag() + np.sqrt(0.5+e)*minus*minus.dag() # M_- measurement operator 
+
+# function for measuring the bloch vectors
+def blvec(rho): 
+    ss1=sigmax()*rho
+    ss2=sigmay()*rho
+    ss3=sigmaz()*rho
+    s1=ss1.tr().real
+    s2=ss2.tr().real
+    s3=ss3.tr().real
+    return s1,s2,s3
+
+#initial state rho0 on Bloch sphere
+b=Bloch()
+b.add_vectors(blvec(rho0))
+b.show()
+
+# evoluting the system for time=Pi/20 and plotting on the bloch sphere and repeating the process for 20 times.
+b3d=qutip.Bloch3d()
+theta=np.linspace(0,np.pi,20) 
+for thetas in theta:
+    H=d*sigmay()
+    U=-1j*H*thetas
+    P=U.expm()
+    rhot=P*rho0*P.dag() #time evolution
+    rhor=M1*rhot*M1.dag()+M2*rhot*M2.dag()
+    b3d.add_vectors(blvec(rhor))
+
+b3d.show()
+b3d = qutip.Bloch3d()
+b3d.show()
