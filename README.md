@@ -1,6 +1,6 @@
 - 👋 Hi, I’m @OmprakashChandra
 - 👀 I’m interested in ...Physics(quantum computing)
-- 🌱 I’m currently learning ...Quantum error correcting models
+- 🌱 I work on Quantum error correction
 - 💞️ I’m looking to collaborate on ...
 - 📫 How to reach me ...omprakash.chandra@hdr.mq.edu.au
 
